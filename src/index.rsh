@@ -98,7 +98,7 @@ export const main =
                 }
             }
             */
-            const [ timeRemaining, keepGoing ] = makeDeadline(90000);
+            const [ timeRemaining, keepGoing ] = makeDeadline(9);
             // makeDeadline burada olacak
             const [oylar , toplamPara] = parallelReduce([Array.replicate(2, 0),0])
                 .invariant(balance()  == toplamPara)
@@ -138,18 +138,19 @@ export const main =
             }
 */      
 
-            const winnerIndex = getIndex(oylar.indexOf(oylar.max()));
-            const winnerAddress = ideas[winnerIndex][0];
-            transfer(balance()).to(winnerAddress);
+
 
             commit();
             Admin.only(() => {
+                const winnerIndex = getIndex(oylar.indexOf(oylar.max()));
                 const winnerTitle = ideas[winnerIndex][2];
+                const winnerAddress = ideas[winnerIndex][0];
 //                const winnerTotal = declassify(interact.announce(winnerAddress,winnerTitle));
 //                const x = declassify(interact.announce2(winnerAddress,ideas[0][2]));
             });
-            Admin.publish(winnerTitle);            
+            Admin.publish(winnerTitle,winnerAddress,winnerIndex);            
 
+            transfer(balance()).to(winnerAddress);
             commit();
             //showOutcom            
             //showOutcome(getIndex(oylar.indexOf(oylar.max())));
