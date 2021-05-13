@@ -98,7 +98,7 @@ export const main =
                 }
             }
             */
-            const [ timeRemaining, keepGoing ] = makeDeadline(9);
+            const [ timeRemaining, keepGoing ] = makeDeadline(15);
             // makeDeadline burada olacak
             const [oylar , toplamPara] = parallelReduce([Array.replicate(2, 0),0])
                 .invariant(balance()  == toplamPara)
