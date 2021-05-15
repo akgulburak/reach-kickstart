@@ -7,12 +7,14 @@ export const main =
             Participant('Admin', {
                 // Projenin ismini döndür
                 announce: Fun([Address,UInt], UInt),
+                update: Fun([UInt,UInt],Bool),
                 //announce2: Fun([Address,UInt], UInt),
 //                printN: Fun([] , UInt)
             }),
             ParticipantClass('Nominee', {
                 // Projenin ismini döndür
                 getParams: Fun([Address], UInt),
+                update: Fun([UInt,UInt],Bool),
 //                printN: Fun([] , UInt)
             }),
             ParticipantClass('Voter', {
@@ -21,6 +23,7 @@ export const main =
                 shouldBuyTicket: Fun([Tuple(UInt,UInt),Tuple(UInt,UInt)] , Tuple(UInt, UInt)),
                 getBalance: Fun([Address] , UInt),
                 shouldPay: Fun([] , Bool),
+                update: Fun([UInt,UInt],Bool),
                 //getTitles: Fun([UInt] , Bool),
 //                printV: Fun([] , UInt)
             })
@@ -98,7 +101,7 @@ export const main =
                 }
             }
             */
-            const [ timeRemaining, keepGoing ] = makeDeadline(15);
+            const [ timeRemaining, keepGoing ] = makeDeadline(3);
             // makeDeadline burada olacak
             const [oylar , toplamPara] = parallelReduce([Array.replicate(2, 0),0])
                 .invariant(balance()  == toplamPara)
@@ -123,7 +126,11 @@ export const main =
                         }
                         //transfer(choices[1]).to(ideas[choices[0]][0]);
                     })
-                ).timeRemaining(timeRemaining());
+                ).timeout(timeRemaining(),()=>{
+                    Voter.publish();
+                    return [oylar,toplamPara];
+                }
+                );
 /*
             var [m,winnerIndex] = [0,0];
             invariant(balance() == toplamPara); // Burada para harcanmayacak.
@@ -145,12 +152,26 @@ export const main =
                 const winnerIndex = getIndex(oylar.indexOf(oylar.max()));
                 const winnerTitle = ideas[winnerIndex][2];
                 const winnerAddress = ideas[winnerIndex][0];
+                const winning = declassify(interact.update(winnerTitle,toplamPara));
 //                const winnerTotal = declassify(interact.announce(winnerAddress,winnerTitle));
 //                const x = declassify(interact.announce2(winnerAddress,ideas[0][2]));
             });
             Admin.publish(winnerTitle,winnerAddress,winnerIndex);            
 
             transfer(balance()).to(winnerAddress);
+
+            commit();
+            Nominee.only(() => {
+            const winning = declassify(interact.updateN(winnerTitle,toplamPara));
+            });
+            Nominee.publish();
+
+            commit();
+            Voter.only(() => {
+            const winning = declassify(interact.updateV(winnerTitle,toplamPara));
+            });
+            Voter.publish();
+
             commit();
             //showOutcom            
             //showOutcome(getIndex(oylar.indexOf(oylar.max())));

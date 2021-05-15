@@ -5,7 +5,8 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const AdminViews = ({ appState, args, getParamsReady,announceReady, getParams, announce }) => {
+const AdminViews = ({ appState, args, getParamsReady,announceReady, getParams, announce, 
+    update, updateReady }) => {
     switch (appState) {
         case "announce":
             return (
@@ -21,9 +22,28 @@ const AdminViews = ({ appState, args, getParamsReady,announceReady, getParams, a
             );
         case "showOutcome":
             return (<ShowOutcome address={args[0]} />);
+
+        case "update":
+            return (
+                updateReady
+                    ? <Update title={args[0]} amount={args[1]} functionToCall={update} />
+                    : <h1>Loading the Update page</h1>
+            );
+
         default:
             return (<h1>Waiting for contract</h1>);
     }
+}
+
+const Update = ({ title, amount , functionToCall }) => {
+    const title1 = parseCurrency(title);
+    const amount1 = parseCurrency(amount);
+    return (
+        <Container>
+            <h1>Winner is: {title1}</h1>
+            <h1>Amount is: {amount1}</h1>
+        </Container>
+    );
 }
 
 const GetParams = ({ functionToCall }) => {

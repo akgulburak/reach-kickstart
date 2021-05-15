@@ -34,11 +34,11 @@ const ShoulBuyTicket = ({ titles, votes, functionToCall }) => {
     const [index, setIndex] = useState(0);
     const [donation, setDonation] = useState(0);
 
-    const title1 = Reach.formatCurrency(titles[0]);
-    const vote1 = Reach.formatCurrency(votes[0]);
+    const title1 = Reach.bigNumberToNumber(titles[0]);
+    const vote1 = Reach.bigNumberToNumber(votes[0]);
 
-    const title2 = Reach.formatCurrency(titles[1]);
-    const vote2 = Reach.formatCurrency(votes[1]);
+    const title2 = Reach.bigNumberToNumber(titles[1]);
+    const vote2 = Reach.bigNumberToNumber(votes[1]);
 
     console.log(title1);
 

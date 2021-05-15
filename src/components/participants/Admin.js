@@ -2,6 +2,7 @@ import { Component } from "react";
 import * as Backend from "../../build/index.main.mjs";
 import * as Reach from "@reach-sh/stdlib/ALGO";
 
+import { parseCurrency } from "@reach-sh/stdlib/ALGO";
 import { Context } from "../../Context";
 import AdminViews from "./AdminViews";
 
@@ -16,6 +17,7 @@ export class Admin extends Component {
             args: [],
             /* Resolves */
             resGetParams: null,
+            resUpdate: null,
             resAnnounce: null,
         }
 
@@ -44,7 +46,6 @@ export class Admin extends Component {
     }
 
     async getParams() {
-        console.log("asdadsdsaasdasdasddsa")
         const params = await new Promise(res => {
             this.setState({
                 appState: "getParams",
@@ -54,6 +55,21 @@ export class Admin extends Component {
 
         this.updateBalance();
         return params.titleName;
+    }
+
+    async update(title, amount) {
+        console.log(title);
+        console.log(amount);
+        const params = await new Promise(res => {
+            this.setState({
+                appState: "update",
+                args: [title,amount],
+                resUpdate: res
+            });
+        });
+
+        this.updateBalance();
+        return true;
     }
     
     async announce(addr, title) {
@@ -74,7 +90,11 @@ export class Admin extends Component {
         this.state.resGetParams(params);
     }
 
-   announceExt(params) {
+    updateExt(params) {
+        this.state.resUpdate(params);
+    }
+
+    announceExt(params) {
         this.state.resAnnounce(params);
     }
     async showOutcome(address) {
@@ -92,6 +112,9 @@ export class Admin extends Component {
             getParamsReady={this.state.resGetParams !== null}
             announceReady={this.state.resAnnounce !== null}
             getParams={this.getParamsExt}
+
+            updateReady={this.state.resUpdate !== null}
+            update={this.updateExt}
             announce={this.announceExt} />
     }
 }
