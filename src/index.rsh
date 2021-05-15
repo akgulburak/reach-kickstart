@@ -14,7 +14,7 @@ export const main =
             ParticipantClass('Nominee', {
                 // Projenin ismini döndür
                 getParams: Fun([Address], UInt),
-                update: Fun([UInt,UInt],Bool),
+                updateN: Fun([UInt,UInt],Bool),
 //                printN: Fun([] , UInt)
             }),
             ParticipantClass('Voter', {
@@ -23,7 +23,7 @@ export const main =
                 shouldBuyTicket: Fun([Tuple(UInt,UInt),Tuple(UInt,UInt)] , Tuple(UInt, UInt)),
                 getBalance: Fun([Address] , UInt),
                 shouldPay: Fun([] , Bool),
-                update: Fun([UInt,UInt],Bool),
+                updateV: Fun([UInt,UInt],Bool),
                 //getTitles: Fun([UInt] , Bool),
 //                printV: Fun([] , UInt)
             })
@@ -101,7 +101,7 @@ export const main =
                 }
             }
             */
-            const [ timeRemaining, keepGoing ] = makeDeadline(3);
+            const [ timeRemaining, keepGoing ] = makeDeadline(6);
             // makeDeadline burada olacak
             const [oylar , toplamPara] = parallelReduce([Array.replicate(2, 0),0])
                 .invariant(balance()  == toplamPara)

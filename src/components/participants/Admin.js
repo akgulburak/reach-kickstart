@@ -60,10 +60,15 @@ export class Admin extends Component {
     async update(title, amount) {
         console.log(title);
         console.log(amount);
-        const params = await new Promise(res => {
+        const title1 = Reach.bigNumberToNumber(title);
+        const amount1 = Reach.bigNumberToNumber(amount);
+        console.log(title1);
+        console.log(amount1);
+        
+        await new Promise(res => {
             this.setState({
                 appState: "update",
-                args: [title,amount],
+                args: [title1,amount1],
                 resUpdate: res
             });
         });

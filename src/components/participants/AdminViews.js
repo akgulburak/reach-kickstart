@@ -36,12 +36,12 @@ const AdminViews = ({ appState, args, getParamsReady,announceReady, getParams, a
 }
 
 const Update = ({ title, amount , functionToCall }) => {
-    const title1 = parseCurrency(title);
-    const amount1 = parseCurrency(amount);
+    //const title1 = Reach.bigNumberToNumber(title);
+    //const amount1 = Reach.bigNumberToNumber(amount);
     return (
         <Container>
-            <h1>Winner is: {title1}</h1>
-            <h1>Amount is: {amount1}</h1>
+            <h1>Winner is: {title}</h1>
+            <h1>Amount is: {amount}</h1>
         </Container>
     );
 }
