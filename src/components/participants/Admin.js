@@ -61,16 +61,13 @@ export class Admin extends Component {
         console.log(title);
         console.log(amount);
         const title1 = Reach.bigNumberToNumber(title);
-        const amount1 = Reach.bigNumberToNumber(amount);
+        const amount1 = Reach.formatCurrency(amount);
         console.log(title1);
         console.log(amount1);
         
-        await new Promise(res => {
-            this.setState({
-                appState: "update",
-                args: [title1,amount1],
-                resUpdate: res
-            });
+        this.setState({
+            appState: "update",
+            args: [title1,amount1],
         });
 
         this.updateBalance();

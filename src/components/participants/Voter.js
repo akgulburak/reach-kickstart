@@ -56,6 +56,23 @@ export class Voter extends Component {
         return true;
     }
 
+    async updateV(title, amount) {
+
+        const [account, , , setBalance] = this.context;
+
+        const balance = Reach.formatCurrency(await Reach.balanceOf(account), 4);
+        const title1 = Reach.bigNumberToNumber(title);
+        const amount1 = Reach.formatCurrency(amount);
+        this.setState({
+            appState: "winner",
+            args: [title1,amount1]
+        });
+
+        this.updateBalance();
+        console.log("11111")
+
+    }
+
     async shouldBuyTicket(titles,votes) {
         const response = await new Promise(res => {
             this.setState({

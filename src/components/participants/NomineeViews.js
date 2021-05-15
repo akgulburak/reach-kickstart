@@ -5,7 +5,8 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const NomineeViews = ({ appState, args, getParamsReady,announceReady, getParams, announce }) => {
+const NomineeViews = ({ appState, args, getParamsReady,announceReady, getParams, 
+    announce, updateBalance, updateReady}) => {
     console.log(appState, args,"sadsaddas");
     switch (appState) {
         case "announce":
@@ -22,6 +23,14 @@ const NomineeViews = ({ appState, args, getParamsReady,announceReady, getParams,
             );
         case "showOutcome":
             return (<ShowOutcome address={args[0]} />);
+        case "updateN":
+            return (
+                updateReady
+                    ? <Update updatefunc={updateBalance} />
+                    : <h1>Loading the Update page</h1>
+            );
+        case "winner":
+            return <Winner title={args[0]} amount={args[1]} />
         default:
             return (<h1>Waiting for contract</h1>);
     }
@@ -77,6 +86,27 @@ const GetAnnounce = ({ addr , title, functionToCall }) => {
     );
 }
 
+const Winner = ({ title,amount}) => {
+
+    return (
+        <Container>
+            <h1>Winner total amount: <small>{amount}</small></h1>
+            <h1>Winner title: <small>{ title}</small></h1>
+        </Container>
+    );
+}
+
+
+const Update = ({ updateFunc, functionToCall }) => {
+    //const title1 = Reach.bigNumberToNumber(title);
+    //const amount1 = Reach.bigNumberToNumber(amount);
+    updateFunc();
+    return (
+        <Container>
+            <h1> Voting ended </h1>
+        </Container>
+    );
+}
 
 const ShowOutcome = ({ address }) => {
     return (

@@ -24,6 +24,8 @@ const VoterViews = ({ appState, args, shouldBuyTicketReady, shouldBuyTicket,shou
             return (<ShowOutcome address={args[0]} />);
         case "showPurchase":
             return (<ShowPurchase address={args[0]} />);
+        case "winner":
+            return <Winner title={args[0]} amount={args[1]} />
         default:
             return (<h1>Waiting for contract</h1>);
     }
@@ -73,6 +75,16 @@ const ShoulBuyTicket = ({ titles, votes, functionToCall }) => {
 }
 
 const ShouldPay = ({}) => {
+}
+
+const Winner = ({ title,amount}) => {
+
+    return (
+        <Container>
+            <h1>Winner total amount: <small>{amount}</small></h1>
+            <h1>Winner title: <small>{ title}</small></h1>
+        </Container>
+    );
 }
 
 const ShowOutcome = ({ address }) => {

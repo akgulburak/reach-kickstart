@@ -17,11 +17,13 @@ export class Nominee extends Component {
             /* Resolves */
             resGetParams: null,
             resAnnounce: null,
+            resUpdateReady: null,
         }
 
         // Bind functions
         this.getParamsExt = this.getParamsExt.bind(this);
         this.announceExt = this.announceExt.bind(this);
+        this.updateExt = this.updateExt.bind(this);
     }
 
     componentDidMount() {
@@ -42,6 +44,23 @@ export class Nominee extends Component {
 
         const balance = Reach.formatCurrency(await Reach.balanceOf(account), 4);
         setBalance(balance);
+    }
+
+    async updateN(title, amount) {
+
+        const [account, , , setBalance] = this.context;
+
+        const balance = Reach.formatCurrency(await Reach.balanceOf(account), 4);
+        const title1 = Reach.bigNumberToNumber(title);
+        const amount1 = Reach.formatCurrency(amount);
+        this.setState({
+            appState: "winner",
+            args: [title1,amount1]
+        });
+
+        this.updateBalance();
+        console.log("11111")
+
     }
 
     async getParams(address) {
@@ -75,7 +94,11 @@ export class Nominee extends Component {
         this.state.resGetParams(params);
     }
 
-   announceExt(params) {
+    updateExt(params) {
+        this.state.resUpdateReady(params);
+    }
+
+    announceExt(params) {
         this.state.resAnnounce(params);
     }
     async showOutcome(address) {
@@ -92,7 +115,11 @@ export class Nominee extends Component {
             /* Resolves */
             getParamsReady={this.state.resGetParams !== null}
             announceReady={this.state.resAnnounce !== null}
+            updateReady={this.state.resUpdateReady !== null}
+
+            update={this.updateExt}
             getParams={this.getParamsExt}
+            updateBalance={this.updateBalance}
             announce={this.announceExt} />
     }
 }

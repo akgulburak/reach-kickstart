@@ -25,9 +25,7 @@ const AdminViews = ({ appState, args, getParamsReady,announceReady, getParams, a
 
         case "update":
             return (
-                updateReady
-                    ? <Update title={args[0]} amount={args[1]} functionToCall={update} />
-                    : <h1>Loading the Update page</h1>
+                    <Update title={args[0]} amount={args[1]} functionToCall={update} />                    
             );
 
         default:

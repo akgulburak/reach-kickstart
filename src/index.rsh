@@ -14,7 +14,7 @@ export const main =
             ParticipantClass('Nominee', {
                 // Projenin ismini döndür
                 getParams: Fun([Address], UInt),
-                updateN: Fun([UInt,UInt],Bool),
+                updateN: Fun([UInt,UInt], Null),
 //                printN: Fun([] , UInt)
             }),
             ParticipantClass('Voter', {
@@ -23,7 +23,7 @@ export const main =
                 shouldBuyTicket: Fun([Tuple(UInt,UInt),Tuple(UInt,UInt)] , Tuple(UInt, UInt)),
                 getBalance: Fun([Address] , UInt),
                 shouldPay: Fun([] , Bool),
-                updateV: Fun([UInt,UInt],Bool),
+                updateV: Fun([UInt,UInt],Null),
                 //getTitles: Fun([UInt] , Bool),
 //                printV: Fun([] , UInt)
             })
@@ -146,7 +146,6 @@ export const main =
 */      
 
 
-
             commit();
             Admin.only(() => {
                 const winnerIndex = getIndex(oylar.indexOf(oylar.max()));
@@ -159,19 +158,25 @@ export const main =
             Admin.publish(winnerTitle,winnerAddress,winnerIndex);            
 
             transfer(balance()).to(winnerAddress);
-
+            
             commit();
             Nominee.only(() => {
-            const winning = declassify(interact.updateN(winnerTitle,toplamPara));
+            interact.updateN(winnerTitle,toplamPara);
             });
             Nominee.publish();
 
             commit();
             Voter.only(() => {
+            interact.updateV(winnerTitle,toplamPara);
+            });
+            Voter.publish();
+/*
+            commit();
+            Voter.only(() => {
             const winning = declassify(interact.updateV(winnerTitle,toplamPara));
             });
             Voter.publish();
-
+*/
             commit();
             //showOutcom            
             //showOutcome(getIndex(oylar.indexOf(oylar.max())));
