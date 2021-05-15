@@ -67,7 +67,8 @@ export const main =
                 }*/
                 return addresses.includes(msg[1]) ? [ideas, addresses, ideaCount,titles] : [newArray, newAdress , ideaCount+1,titles.set(ideaCount,msg[0])];
                 }))
-            .timeout(false,()=>{
+            .timeout(20,()=>{
+                Nominee.publish();
                 return [ideas,addresses, 6,titles];
             }
             );
