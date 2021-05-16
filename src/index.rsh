@@ -123,7 +123,7 @@ export const main =
                             return [oylar,toplamPara];
                         }else{
                             //transfer(choices[1]).to(ideas[choices[0]][0]);
-                            return [oylar.set(choices[0],oylar[choices[0]]+1) ,toplamPara+choices[1]];
+                            return [oylar.set(choices[0],oylar[choices[0]]+choices[1]) ,toplamPara+choices[1]];
                         }
                         //transfer(choices[1]).to(ideas[choices[0]][0]);
                     })
